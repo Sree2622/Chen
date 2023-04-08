@@ -3,13 +3,10 @@
   <head>
     <meta charset="utf-8">
     <title>My Three.js App</title>
-    <script src="three/build/three.js"></script>
-  </head>
-  <body>
-    <script>
+    <script type="module">
       // Import the necessary modules
-      import * as THREE from 'three/build/three.module.js';
-      import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+      import * as THREE from './three/build/three.module.js';
+      import { GLTFLoader } from './three/examples/jsm/loaders/GLTFLoader.js';
 
       // Create a Three.js scene
       const scene = new THREE.Scene();
@@ -37,6 +34,7 @@
       }
       animate();
     </script>
+  </head>
+  <body>
   </body>
 </html>
-
