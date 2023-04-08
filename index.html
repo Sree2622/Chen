@@ -3,14 +3,21 @@
   <head>
     <meta charset="utf-8">
     <title>My Three.js App</title>
-    <script src="./three/build/three.js"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./three/build/three.module.js",
+          "three/examples/jsm/loaders/GLTFLoader": "./three-gltf/examples/jsm/loaders/GLTFLoader.js"
+        }
+      }
+    </script>
   </head>
   <body>
     <div id="output"></div>
     <script type="module">
       // Import the necessary modules
-    	 import * as THREE from 'three';
-	 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+      import * as THREE from 'three';
+      import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
       // Create a Three.js scene
       const scene = new THREE.Scene();
@@ -25,7 +32,7 @@
 
       // Load a GLTF model using the GLTFLoader
       const loader = new GLTFLoader();
-      loader.load('city1.glb', function (gltf) {
+      loader.load('./three.js-master/examples/models/gltf/city/city.gltf', function (gltf) {
         scene.add(gltf.scene);
         document.getElementById("output").innerHTML = "Model loaded successfully!";
       }, undefined, function (error) {
