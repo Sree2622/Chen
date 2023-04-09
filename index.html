@@ -7,7 +7,6 @@
       {
         "imports": {
           "three": "./three/build/three.module.js",
-          "three/examples/jsm/loaders/GLTFLoader": "./three.js-master/examples/jsm/loaders/GLTFLoader.js"
         }
       }
     </script>
@@ -18,6 +17,7 @@
       // Import the necessary modules
       import * as THREE from 'three';
       import { GLTFLoader } from './three.js-master/examples/jsm/loaders/GLTFLoader.js';
+      import { DRACOLoader } from './three.js-master/examples/jsm/loaders/DRACOLoader.js"';
 
       // Create a Three.js scene
       const scene = new THREE.Scene();
@@ -32,7 +32,11 @@
 
       // Load a GLTF model using the GLTFLoader
       const loader = new GLTFLoader();
-      loader.load('city1.glb', function (gltf) {
+      const dracoLoader = new DRACOLoader();
+      dracoLoader.setDecoderPath( './three.js-master/examples/jsm/libs/draco/gltf/draco_decoder.js' ); // specify the path to the draco decode
+	loader.setDRACOLoader( dracoLoader );
+      
+        loader.load('city1.glb', function (gltf) {
         scene.add(gltf.scene);
         document.getElementById("output").innerHTML = "Model loaded successfully!";
       }, undefined, function (error) {
