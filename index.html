@@ -51,13 +51,21 @@
         document.getElementById("output").innerHTML = "Error loading model";
       });
 
-      // Update the camera controls in the animation loop
-      function animate() {
-        requestAnimationFrame(animate);
-	  controls.update();
-        renderer.render(scene, camera);
-      }
-      animate();
+	// Add a renderer to the scene
+	const renderer = new THREE.WebGLRenderer();
+	renderer.setSize(window.innerWidth, window.innerHeight);
+	document.body.appendChild(renderer.domElement);
+
+	// Define the animate function
+	function animate() {
+  	requestAnimationFrame(animate);
+  	controls.update();
+  	renderer.render(scene, camera);
+	}
+
+	// Call the animate function to start rendering the scene
+	animate();
+
     </script>
   </body>
 </html>
