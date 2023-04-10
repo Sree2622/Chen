@@ -30,12 +30,6 @@
  	// Add camera controls to the scene
       const controls = new OrbitControls(camera, renderer.domElement);
       controls.target.set(0, 0, 0); // Set the controls target to the center of the scene
-   
-
-      // Add a renderer to the scene
-      const renderer = new THREE.WebGLRenderer();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      document.body.appendChild(renderer.domElement);
 
       // Load a GLTF model using the GLTFLoader
       const loader = new GLTFLoader();
