@@ -46,6 +46,8 @@
       const dracoLoader = new DRACOLoader();
       dracoLoader.setDecoderPath( './three.js-master/examples/jsm/libs/draco/gltf/' ); // specify the path to the draco decode
     	loader.setDRACOLoader( dracoLoader );
+      let mixer;
+
       
       loader.load('city1.glb', function (gltf) {
         const model = gltf.scene;
