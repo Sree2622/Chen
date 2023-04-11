@@ -55,9 +55,6 @@
         model.scale.set( 0.01, 0.01, 0.01 );
         scene.add( model );
 
-        mixer = new THREE.AnimationMixer( model );
-        mixer.clipAction( gltf.animations[ 0 ] ).play();
-
         animate();
         document.getElementById("output").innerHTML = "Model loaded successfully!";
       }, undefined, function (error) {
