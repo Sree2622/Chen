@@ -28,7 +28,6 @@
 	
 
 	 // Add a renderer to the scene
-  ;
     const renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight );
@@ -36,17 +35,16 @@
 
 
     const pmremGenerator = new THREE.PMREMGenerator( renderer );
-     // show axes in the screen
-     var axes = new THREE.AxisHelper(20);
-    scene.add(axes);
+
 
     // Create a Three.js scene
-    
-    const scene = new THREE.Scene();
+      const scene = new THREE.Scene();
       scene.background = new THREE.Color( 0xbfe3dd );
       scene.environment = pmremGenerator.fromScene( new RoomEnvironment(), 0.04 ).texture;
 
-
+    // show axes in the screen
+    var axes = new THREE.AxesHelper(20);
+    scene.add(axes);
       
  	// Add camera controls to the scene
     const controls = new OrbitControls( camera, renderer.domElement );
