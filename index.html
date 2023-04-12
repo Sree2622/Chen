@@ -74,8 +74,6 @@
       const dracoLoader = new DRACOLoader();
       dracoLoader.setDecoderPath( './three.js-master/examples/jsm/libs/draco/gltf/' ); // specify the path to the draco decode
     	loader.setDRACOLoader( dracoLoader );
-      let mixer;
-
       
       loader.load('city1.glb', function (gltf) {
         const model = gltf.scene;
@@ -92,6 +90,10 @@
         if ( node.isMesh ) node.material = material;
         } );
         scene.add( model );
+        var light = new THREE.PointLight( 0xffffff, 1, 100 );
+        light.position.set( 0, 0, 5 );
+        scene.add( light );
+
 
         animate();
         document.getElementById("output").innerHTML = "Model loaded successfully!";
