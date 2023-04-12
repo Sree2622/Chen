@@ -10,6 +10,7 @@
         }
       }
     </script>
+    <script src="./THREEx.WindowResize.js"></script>
   </head>
   <body>
     <div id="output"></div>
@@ -20,7 +21,6 @@
       import { DRACOLoader } from './three.js-master/examples/jsm/loaders/DRACOLoader.js';
       import { RoomEnvironment } from './three.js-master/examples/jsm/environments/RoomEnvironment.js';
       import { OrbitControls } from './three.js-master/examples/jsm/controls/OrbitControls.js';
-      import { THREExWindowResize } from './THREEx.WindowResize.js'
       
       // Add a camera to the scene
       const camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 100 );
@@ -56,7 +56,7 @@
       controls.enableDamping = true;
      
       // Initialize the THREEx.WindowResize module
-      const windowResize = new THREExWindowResize(renderer, camera);
+      const windowResize = new THREEx.WindowResize(renderer, camera);
 
       // Add an event listener to the window to call onResize() when the window is resized
       window.addEventListener('resize', onResize);
@@ -112,5 +112,6 @@
 
 
     </script>
+
   </body>
 </html>
