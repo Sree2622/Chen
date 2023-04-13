@@ -77,8 +77,8 @@
       
       loader.load('city1.glb', function (gltf) {
         const model = gltf.scene;
-        model.position.set( 0, 0, 0 );
-        model.scale.set( 0.1, 0.1, 0.1 );
+        model.position.set( 1, 1, 0 );
+        model.scale.set( 0.01, 0.01, 0.01 );
         // Create a texture from an image file
         const textureLoader = new THREE.TextureLoader();
         const texture = textureLoader.load( 'pexels-photo-2832382.jpeg',
