@@ -80,15 +80,33 @@
         model.position.set( 0, 0, 0 );
         model.scale.set( 0.1, 0.1, 0.1 );
         // Create a texture from an image file
-         const textureLoader = new THREE.TextureLoader();
-        const texture = textureLoader.load( 'pexels-photo-2832382.jpeg' );
+        const textureLoader = new THREE.TextureLoader();
+        const texture = textureLoader.load( 'pexels-photo-2832382.jpeg',
+        // success callback
+        function (texture) {
+        console.log("Image loaded successfully!");
+        },
+        // error callback
+        function (err) {
+        console.error("Error loading image:", err);
+        }
+        );
         // Create a new material that uses the texture
-        const material = new THREE.MeshBasicMaterial( { map: texture } );
+        const material = new THREE.MeshBasicMaterial( { map: texture, color: 0xff0000 } );
 
         // Apply the material to the model's mesh
         model.traverse( function ( node ) {
         if ( node.isMesh ) node.material = material;
         } );
+
+        // Check if the texture is applied correctly
+        if (model.children[0].material.color.getHex() === 0xff0000) {
+        console.log("Texture applied successfully!");
+        } else {
+        console.log("Texture not applied.");
+        }
+
+        
         scene.add( model );
         var light = new THREE.PointLight( 0xffffff, 1, 100 );
         light.position.set( 0, 0, 5 );
