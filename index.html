@@ -26,8 +26,8 @@
       const camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 100 );
       camera.position.set( 5, 2, 8 );
       // Set the camera position and target
-      camera.lookAt(0, 0, 0);
-	
+      camera.lookAt(new THREE.Vector3(0, 0, 0));
+
 
 	// Add a renderer to the scene
       const renderer = new THREE.WebGLRenderer( { antialias: true } );
@@ -111,10 +111,10 @@
         var light = new THREE.PointLight( 0xffffff, 1, 100 );
         light.position.set( 0, 0, 5 );
         scene.add( light );
-	 console.log('Camera position:', camera.position);
-	console.log('Camera target:', camera.target);
-	console.log('Model position:', model.position);
-	console.log('Model rotation:', model.rotation);
+	      console.log('Camera position:', camera.position);
+	      console.log('Camera target:', camera.target);
+	      console.log('Model position:', model.position);
+	      console.log('Model rotation:', model.rotation);
 
 
 
