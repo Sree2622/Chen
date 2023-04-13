@@ -26,8 +26,6 @@
       const camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 100 );
       camera.position.set( 5, 2, 8 );
       // Set the camera position and target
-      camera.lookAt(new THREE.Vector3(0, 0, 0));
-
 
 	// Add a renderer to the scene
       const renderer = new THREE.WebGLRenderer( { antialias: true } );
@@ -77,8 +75,14 @@
       
       loader.load('city1.glb', function (gltf) {
         const model = gltf.scene;
+       // Get the position of the center of the model's bounding box
+        const boundingBox = new THREE.Box3().setFromObject(gltf.scene);
+         const targetPosition = boundingBox.getCenter();
+
+  // Make the camera look at the model
+        camera.lookAt(targetPosition);
         model.position.set( 1, 1, 0 );
-        model.scale.set( 10, 10, 10 );
+        model.scale.set( 1, 1, 1);
         // Create a texture from an image file
         const textureLoader = new THREE.TextureLoader();
         const texture = textureLoader.load( 'pexels-photo-2832382.jpeg',
@@ -112,7 +116,6 @@
         light.position.set( 0, 0, 5 );
         scene.add( light );
 	      console.log('Camera position:', camera.position);
-	      console.log('Camera target:', camera.target);
 	      console.log('Model position:', model.position);
 	      console.log('Model rotation:', model.rotation);
 
