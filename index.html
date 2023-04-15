@@ -22,6 +22,8 @@
       import { RoomEnvironment } from './three.js-master/examples/jsm/environments/RoomEnvironment.js';
       import { OrbitControls } from './three.js-master/examples/jsm/controls/OrbitControls.js';
       
+ 	const camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 100 );
+      camera.position.set( 5, 2, 8 );
   
 
 	// Add a renderer to the scene
