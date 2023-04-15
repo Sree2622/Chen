@@ -22,10 +22,32 @@
       import { RoomEnvironment } from './three.js-master/examples/jsm/environments/RoomEnvironment.js';
       import { OrbitControls } from './three.js-master/examples/jsm/controls/OrbitControls.js';
       
- 	const camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 100 );
+ 	    const camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 100 );
       camera.position.set( 5, 2, 8 );
   
+      // Load a GLTF model using the GLTFLoader
+      const loader = new GLTFLoader();
+      const dracoLoader = new DRACOLoader();
+      dracoLoader.setDecoderPath( './three.js-master/examples/jsm/libs/draco/gltf/' ); // specify the path to the draco decode
+    	loader.setDRACOLoader( dracoLoader );
+      
+      loader.load('city1.glb', function (gltf) {
+      const model = gltf.scene;
+      model.position.set( 1, 1, 0 );
+      model.scale.set( 1, 1, 1);
+      // Make the camera look at the model
+      const boundingBox = new THREE.Box3().setFromObject(gltf.scene);
+      const modelCenter = new THREE.Vector3();
+      boundingBox.getCenter(modelCenter);
+      const modelSize = boundingBox.getSize(new THREE.Vector3()).length();
+      const cameraDistance = modelSize / Math.atan(camera.fov * Math.PI / 360);
+      const cameraPosition = modelCenter.clone().add(new THREE.Vector3(0, 0, cameraDistance));
+      camera.position.copy(cameraPosition);
 
+        // Make the camera look at the center of the model
+        camera.lookAt(modelCenter);
+        // Create a texture from an image file
+        
 	// Add a renderer to the scene
       const renderer = new THREE.WebGLRenderer( { antialias: true } );
       renderer.setPixelRatio( window.devicePixelRatio );
@@ -64,32 +86,6 @@
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
       }
-
-
-      // Load a GLTF model using the GLTFLoader
-      const loader = new GLTFLoader();
-      const dracoLoader = new DRACOLoader();
-      dracoLoader.setDecoderPath( './three.js-master/examples/jsm/libs/draco/gltf/' ); // specify the path to the draco decode
-    	loader.setDRACOLoader( dracoLoader );
-      
-      loader.load('city1.glb', function (gltf) {
-        const model = gltf.scene;
-    
-      model.position.set( 1, 1, 0 );
-      model.scale.set( 1, 1, 1);
-      // Make the camera look at the model
-      const boundingBox = new THREE.Box3().setFromObject(gltf.scene);
-      const modelCenter = new THREE.Vector3();
-      boundingBox.getCenter(modelCenter);
-
-      const modelSize = boundingBox.getSize(new THREE.Vector3()).length();
-      const cameraDistance = modelSize / Math.atan(camera.fov * Math.PI / 360);
-      const cameraPosition = modelCenter.clone().add(new THREE.Vector3(0, 0, cameraDistance));
-      camera.position.copy(cameraPosition);
-
-        // Make the camera look at the center of the model
-        camera.lookAt(modelCenter);
-        // Create a texture from an image file
         const textureLoader = new THREE.TextureLoader();
         const texture = textureLoader.load( 'pexels-photo-2832382.jpeg',
         // success callback
