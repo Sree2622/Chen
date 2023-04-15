@@ -75,14 +75,18 @@
       
       loader.load('city1.glb', function (gltf) {
         const model = gltf.scene;
-       // Get the position of the center of the model's bounding box
-        const boundingBox = new THREE.Box3().setFromObject(gltf.scene);
-        const targetPosition = boundingBox.getCenter();
+    
 
-  // Make the camera look at the model
-        camera.lookAt(targetPosition);
-        model.position.set( 1, 1, 0 );
-        model.scale.set( 1, 1, 1);
+      // Make the camera look at the model
+      const boundingBox = new THREE.Box3().setFromObject(gltf.scene);
+      const modelCenter = boundingBox.getCenter();
+      const modelSize = boundingBox.getSize(new THREE.Vector3()).length();
+      const cameraDistance = modelSize / Math.atan(camera.fov * Math.PI / 360);
+      const cameraPosition = modelCenter.clone().add(new THREE.Vector3(0, 0, cameraDistance));
+      camera.position.copy(cameraPosition);
+
+        // Make the camera look at the center of the model
+        camera.lookAt(modelCenter);
         // Create a texture from an image file
         const textureLoader = new THREE.TextureLoader();
         const texture = textureLoader.load( 'pexels-photo-2832382.jpeg',
