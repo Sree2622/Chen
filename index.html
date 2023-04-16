@@ -17,131 +17,36 @@
     <script type="module">
       // Import the necessary modules
       import * as THREE from 'three';
-      import { GLTFLoader } from './three.js-master/examples/jsm/loaders/GLTFLoader.js';
-      import { DRACOLoader } from './three.js-master/examples/jsm/loaders/DRACOLoader.js';
-      import { RoomEnvironment } from './three.js-master/examples/jsm/environments/RoomEnvironment.js';
-      import { OrbitControls } from './three.js-master/examples/jsm/controls/OrbitControls.js';
-      
- 	    const camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 100 );
-      camera.position.set( 5, 2, 8 );
-  
-      // Load a GLTF model using the GLTFLoader
-      const loader = new GLTFLoader();
-      const dracoLoader = new DRACOLoader();
-      dracoLoader.setDecoderPath( './three.js-master/examples/jsm/libs/draco/gltf/' ); // specify the path to the draco decode
-    	loader.setDRACOLoader( dracoLoader );
-      
-      loader.load('city1.glb', function (gltf) {
-      const model = gltf.scene;
-      model.position.set( 1, 1, 0 );
-      model.scale.set( 1, 1, 1);
-      // Make the camera look at the model
-      const boundingBox = new THREE.Box3().setFromObject(gltf.scene);
-      const modelCenter = new THREE.Vector3();
-      boundingBox.getCenter(modelCenter);
-      const modelSize = boundingBox.getSize(new THREE.Vector3()).length();
-      const cameraDistance = modelSize / Math.atan(camera.fov * Math.PI / 360);
-      const cameraPosition = modelCenter.clone().add(new THREE.Vector3(0, 0, cameraDistance));
-      camera.position.copy(cameraPosition);
+ import { GLTFLoader } from './three.js-master/examples/jsm/loaders/GLTFLoader.js';
+const scene = new THREE.Scene();
 
-        // Make the camera look at the center of the model
-        camera.lookAt(modelCenter);
-        // Create a texture from an image file
-        
-	// Add a renderer to the scene
-      const renderer = new THREE.WebGLRenderer( { antialias: true } );
-      renderer.setPixelRatio( window.devicePixelRatio );
-      renderer.setSize( window.innerWidth, window.innerHeight );
-      renderer.outputEncoding = THREE.sRGBEncoding;
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.z = 5;
 
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
 
-      const pmremGenerator = new THREE.PMREMGenerator( renderer );
+const loader = new GLTFLoader();
+loader.load('city1.glb', (gltf) => {
+  scene.add(gltf.scene);
+}, undefined, (error) => {
+  console.error(error);
+});
 
+const animate = function () {
+  requestAnimationFrame(animate);
 
-      // Create a Three.js scene
-      const scene = new THREE.Scene();
-      scene.background = new THREE.Color( 0xbfe3dd );
-      scene.environment = pmremGenerator.fromScene( new RoomEnvironment(), 0.04 ).texture;
+  // Rotate the model
+  if (scene.children.length > 0) {
+    scene.children[0].rotation.y += 0.01;
+  }
 
-      // show axes in the screen
-      var axes = new THREE.AxesHelper(20);
-      scene.add(axes);
-      
- 	    // Add camera controls to the scene
-      const controls = new OrbitControls( camera, renderer.domElement );
-      controls.target.set( 0, 0.5, 0 );
-      controls.update();
-      controls.enablePan = false;
-      controls.enableDamping = true;
-     
-      // Initialize the THREEx.WindowResize module
-      const windowResize = new THREEx.WindowResize(renderer, camera);
+  renderer.render(scene, camera);
+};
 
-      // Add an event listener to the window to call onResize() when the window is resized
-      window.addEventListener('resize', onResize);
+animate();
 
-      function onResize() {
-      // Update the camera aspect ratio and renderer size
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      }
-        const textureLoader = new THREE.TextureLoader();
-        const texture = textureLoader.load( 'pexels-photo-2832382.jpeg',
-        // success callback
-        function (texture) {
-        console.log("Image loaded successfully!");
-        },
-        // error callback
-        function (err) {
-        console.error("Error loading image:", err);
-        }
-        );
-        // Create a new material that uses the texture
-        const material = new THREE.MeshBasicMaterial( { map: texture, color: 0xff0000 } );
-
-        // Apply the material to the model's mesh
-        model.traverse( function ( node ) {
-        if ( node.isMesh ) node.material = material;
-        } );
-
-        // Check if the texture is applied correctly
-        if (model.children[0].material.color.getHex() === 0xff0000) {
-        console.log("Texture applied successfully!");
-        } else {
-        console.log("Texture not applied.");
-        }
-
-        
-        scene.add( model );
-        var light = new THREE.PointLight( 0xffffff, 1, 100 );
-        light.position.set( 1, 1, 0 );
-        scene.add( light );
-	      console.log('Camera position:', camera.position);
-	      console.log('Model position:', model.position);
-	      console.log('Model rotation:', model.rotation);
-
-
-
-        animate();
-        console.log("Model loaded succesfully");
-      }, undefined, function (error) {
-        console.error(error);
-        document.getElementById("output").innerHTML = "Error loading model";
-      });
-
-
-
-	// Define the animate function
-	function animate() {
-  	requestAnimationFrame(animate);
-  	controls.update();
-  	renderer.render(scene, camera);
-	}
-
-
-
-    </script>
 
   </body>
 </html>
